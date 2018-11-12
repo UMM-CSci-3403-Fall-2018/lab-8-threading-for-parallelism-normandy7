@@ -68,11 +68,13 @@ public class ThreadedMinimumPairwiseDistance implements MinimumPairwiseDistance{
                 for(int j = 0 ; j < i; j ++){
                     long diff = Math.abs(values[i] - values[j]);
                     if (diff < answer ){
-                        updateGlobalMinDistance(diff);
                         answer = diff;
                     }
                 }
             }
+
+            updateGlobalMinDistance(answer);
+
         }
 
         public long getAnswer() {
@@ -96,11 +98,12 @@ public class ThreadedMinimumPairwiseDistance implements MinimumPairwiseDistance{
                 for(int j = 0 ; j < (i -  (length / 2)); j ++){
                     long diff = Math.abs(values[i] - values[j]);
                     if (diff < answer ){
-                        updateGlobalMinDistance(diff);
                         answer = diff;
                     }
                 }
             }
+
+            updateGlobalMinDistance(answer);
         }
 
         public long getAnswer() {
@@ -118,17 +121,32 @@ public class ThreadedMinimumPairwiseDistance implements MinimumPairwiseDistance{
             this.length = values.length;
         }
 
-        @Override
+       /* @Override
         public void run(){
             for(int i = length-1; i > length/2; i --){
                 for(int j = length/2 ; j > i; j --){
                     long diff = Math.abs(values[i] - values[j]);
                     if (diff < answer ){
-                        updateGlobalMinDistance(diff);
                         answer = diff;
                     }
                 }
             }
+
+            updateGlobalMinDistance(answer);
+        }*/
+
+        @Override
+        public void run(){
+            for(int j = 0; j < length - length/2 ; j++){
+                for(int i = length/2 ; i < j + length/2 ; i++){
+                    long diff = Math.abs(values[i] - values[j]);
+                    if (diff < answer ){
+                        answer = diff;
+                    }
+                }
+            }
+
+            updateGlobalMinDistance(answer);
         }
 
         public long getAnswer() {
@@ -152,11 +170,13 @@ public class ThreadedMinimumPairwiseDistance implements MinimumPairwiseDistance{
                 for(int j = length/2; j < i; j ++){
                     long diff = Math.abs(values[i] - values[j]);
                     if (diff < answer ){
-                        updateGlobalMinDistance(diff);
                         answer = diff;
                     }
                 }
             }
+
+            updateGlobalMinDistance(answer);
+
         }
 
         public long getAnswer() {
