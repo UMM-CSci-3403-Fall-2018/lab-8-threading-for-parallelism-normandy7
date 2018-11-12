@@ -125,6 +125,8 @@ fabric.properties
 # .idea/misc.xml
 # *.ipr
 
+*.xml
+
 # Sonarlint plugin
 .idea/sonarlint
 

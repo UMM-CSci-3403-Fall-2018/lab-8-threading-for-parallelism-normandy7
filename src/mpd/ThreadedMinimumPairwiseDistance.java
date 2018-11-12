@@ -3,6 +3,7 @@ package mpd;
 public class ThreadedMinimumPairwiseDistance implements MinimumPairwiseDistance{
 
     private int num;
+    private long globalResult = Integer.MAX_VALUE;
 
     @Override
     public long minimumPairwiseDistance(int[] values)   {
@@ -43,7 +44,12 @@ public class ThreadedMinimumPairwiseDistance implements MinimumPairwiseDistance{
 
 
         //Return
-        return Math.min(Math.min(bleftAnswer,brightAnswer),Math.min(middleAnswer,topAnswer));
+        //return Math.min(Math.min(bleftAnswer,brightAnswer),Math.min(middleAnswer,topAnswer));
+        return globalResult;
+    }
+
+    private synchronized void updateGlobalMinDistance(long result) {
+        if (result < globalResult) this.globalResult = result;
     }
 
     public class BottomLeft implements Runnable {
@@ -62,6 +68,7 @@ public class ThreadedMinimumPairwiseDistance implements MinimumPairwiseDistance{
                 for(int j = 0 ; j < i; j ++){
                     long diff = Math.abs(values[i] - values[j]);
                     if (diff < answer ){
+                        updateGlobalMinDistance(diff);
                         answer = diff;
                     }
                 }
@@ -89,6 +96,7 @@ public class ThreadedMinimumPairwiseDistance implements MinimumPairwiseDistance{
                 for(int j = 0 ; j < (i -  (length / 2)); j ++){
                     long diff = Math.abs(values[i] - values[j]);
                     if (diff < answer ){
+                        updateGlobalMinDistance(diff);
                         answer = diff;
                     }
                 }
@@ -116,6 +124,7 @@ public class ThreadedMinimumPairwiseDistance implements MinimumPairwiseDistance{
                 for(int j = length/2 ; j > i; j --){
                     long diff = Math.abs(values[i] - values[j]);
                     if (diff < answer ){
+                        updateGlobalMinDistance(diff);
                         answer = diff;
                     }
                 }
@@ -143,6 +152,7 @@ public class ThreadedMinimumPairwiseDistance implements MinimumPairwiseDistance{
                 for(int j = length/2; j < i; j ++){
                     long diff = Math.abs(values[i] - values[j]);
                     if (diff < answer ){
+                        updateGlobalMinDistance(diff);
                         answer = diff;
                     }
                 }
