@@ -2,7 +2,6 @@ package mpd;
 
 public class ThreadedMinimumPairwiseDistance implements MinimumPairwiseDistance{
 
-    private int num;
     private long globalResult = Integer.MAX_VALUE;
 
     @Override
@@ -36,15 +35,7 @@ public class ThreadedMinimumPairwiseDistance implements MinimumPairwiseDistance{
             e.printStackTrace();
         }
 
-        //Capture data
-        long bleftAnswer = bottomLeft.getAnswer();
-        long brightAnswer = bottomRight.getAnswer();
-        long middleAnswer = middle.getAnswer();
-        long topAnswer = top.getAnswer();
-
-
         //Return
-        //return Math.min(Math.min(bleftAnswer,brightAnswer),Math.min(middleAnswer,topAnswer));
         return globalResult;
     }
 
@@ -77,9 +68,6 @@ public class ThreadedMinimumPairwiseDistance implements MinimumPairwiseDistance{
 
         }
 
-        public long getAnswer() {
-            return answer;
-        }
     }
 
     public class BottomRight implements Runnable {
@@ -106,9 +94,6 @@ public class ThreadedMinimumPairwiseDistance implements MinimumPairwiseDistance{
             updateGlobalMinDistance(answer);
         }
 
-        public long getAnswer() {
-            return answer;
-        }
     }
 
     public class Middle implements Runnable {
@@ -120,20 +105,6 @@ public class ThreadedMinimumPairwiseDistance implements MinimumPairwiseDistance{
             this.values = values;
             this.length = values.length;
         }
-
-       /* @Override
-        public void run(){
-            for(int i = length-1; i > length/2; i --){
-                for(int j = length/2 ; j > i; j --){
-                    long diff = Math.abs(values[i] - values[j]);
-                    if (diff < answer ){
-                        answer = diff;
-                    }
-                }
-            }
-
-            updateGlobalMinDistance(answer);
-        }*/
 
         @Override
         public void run(){
@@ -149,9 +120,6 @@ public class ThreadedMinimumPairwiseDistance implements MinimumPairwiseDistance{
             updateGlobalMinDistance(answer);
         }
 
-        public long getAnswer() {
-            return answer;
-        }
     }
 
     public class Top implements Runnable {
@@ -179,8 +147,5 @@ public class ThreadedMinimumPairwiseDistance implements MinimumPairwiseDistance{
 
         }
 
-        public long getAnswer() {
-            return answer;
-        }
     }
 }
